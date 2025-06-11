@@ -1,0 +1,33 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Environment
+config/.env
+
+# System
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# Ollama cache
+*.bin
+
+#  Csv
+*.Csv
+*.csv
+
+# exe
+.exe
+
+*.exe
+*.zip
+*.tar.gz
+*.rar

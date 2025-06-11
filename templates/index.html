@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SmartFile AI - Python File Summary & Query</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #f4f6f9;
+      --text-color: #333;
+      --card-bg: #ffffff;
+      --output-bg: #f1f3f5;
+      --primary: #0a58ca;
+      --primary-dark: #084298;
+    }
+
+    body.dark-mode {
+      --bg-color: #121212;
+      --text-color: #e0e0e0;
+      --card-bg: #1e1e1e;
+      --output-bg: #263238;
+      --primary: #1976d2;
+      --primary-dark: #1565c0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      padding: 30px;
+      margin: 0;
+      transition: all 0.3s ease;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.05);
+    }
+
+    h1 {
+      text-align: center;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    button, select, input[type="text"] {
+      font-family: inherit;
+      font-size: 1rem;
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin: 10px 0;
+      background-color: var(--output-bg);
+      color: var(--text-color);
+    }
+
+    button {
+      background-color: var(--primary);
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .section {
+      margin-top: 30px;
+    }
+
+    .label {
+      font-weight: 600;
+      margin-bottom: 5px;
+      display: block;
+      color: var(--text-color);
+    }
+
+    .output {
+      background: var(--output-bg);
+      color: var(--text-color);
+      padding: 15px;
+      border-radius: 8px;
+      white-space: pre-wrap;
+      margin-top: 10px;
+      min-height: 80px;
+      font-size: 1rem;
+    }
+
+    .theme-toggle {
+      text-align: right;
+      margin-bottom: 15px;
+    }
+
+    .theme-toggle span {
+      cursor: pointer;
+      font-size: 0.95rem;
+      color: var(--primary);
+      font-weight: 500;
+      user-select: none;
+    }
+
+    .theme-toggle span:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="theme-toggle">
+      <span id="themeText" onclick="toggleTheme()">🌙 Toggle Dark Mode</span>
+    </div>
+
+    <h1>🚀 SmartFile AI - Python File Summary & Query</h1>
+
+    <div class="section">
+      <button onclick="generate()">Run Full Process & Generate Summaries</button>
+    </div>
+
+    <div class="section">
+      <div class="label">API Summary:</div>
+      <div id="apiSummary" class="output">(Waiting...)</div>
+    </div>
+
+    <div class="section">
+      <div class="label">Web Summary:</div>
+      <div id="webSummary" class="output">(Waiting...)</div>
+    </div>
+
+    <div class="section">
+      <div class="label">Ask a Question:</div>
+      <select id="fileSelect">
+        <option value="api">API File</option>
+        <option value="web">Web File</option>
+      </select>
+      <input type="text" id="question" placeholder="Ask something about the file..." />
+      <button onclick="askQuestion()">Ask Me</button>
+      <div id="answer" class="output">(No question asked yet)</div>
+    </div>
+  </div>
+
+  <script>
+    function generate() {
+      document.getElementById("apiSummary").innerText = "Processing...";
+      document.getElementById("webSummary").innerText = "Processing...";
+      fetch("/generate", { method: "POST" })
+        .then(res => res.json())
+        .then(() => fetch("/summaries"))
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("apiSummary").innerText = data.api_summary;
+          document.getElementById("webSummary").innerText = data.web_summary;
+        });
+    }
+
+    function askQuestion() {
+      const question = document.getElementById("question").value.trim();
+      const file = document.getElementById("fileSelect").value;
+      if (!question) return alert("Please enter a question.");
+
+      fetch("/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question, file })
+      })
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("answer").innerText = data.answer;
+        });
+    }
+
+    function toggleTheme() {
+      const isDark = document.body.classList.toggle("dark-mode");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+      document.getElementById("themeText").innerText = isDark
+        ? "☀️ Light Mode"
+        : "🌙 Dark Mode";
+    }
+
+    window.onload = () => {
+      const savedTheme = localStorage.getItem("theme");
+      const isDark = savedTheme === "dark";
+      if (isDark) {
+        document.body.classList.add("dark-mode");
+      }
+      document.getElementById("themeText").innerText = isDark
+        ? "☀️ Light Mode"
+        : "🌙 Dark Mode";
+    };
+  </script>
+</body>
+</html>
