@@ -1,3 +1,8 @@
+![Python](https://img.shields.io/badge/Python-3.10-blue)
+![Flask](https://img.shields.io/badge/Framework-Flask-lightgrey)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Ollama](https://img.shields.io/badge/LLM-Mistral-blueviolet)
+
 # 🚀 SmartFile AI – Python File Summary & Query Assistant
 
 SmartFile AI is a powerful Python automation tool that downloads, processes, and summarizes CSV files using open-source LLMs (like Mistral or LLaMA3 via Ollama), with a beautiful dark/light UI.
