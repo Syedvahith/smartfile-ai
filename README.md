@@ -123,7 +123,7 @@ If no requirements.txt, run:
 pip freeze > requirements.txt
 
 ---
-
+```
 🔐 Environment Setup (.env)
 Create a file at config/.env and add:
 
@@ -133,15 +133,15 @@ ftp_ip=192.168.1.1
 ftp_port=21
 ftp_user=youruser
 ftp_pass=yourpass
-
+```
 ---
-
+```
 🤖 Ollama Setup
 
 1. Install Ollama
 Download from: https://ollama.com/download
 (Available for Windows, macOS, Linux)
-
+```
 ---
 
 2. Pull a Model
@@ -157,7 +157,7 @@ phi3
 
 ---
 
-3. Start the Model
+```3. Start the Model
 
 ollama run mistral
 🧠 Update Model in Code
@@ -165,7 +165,7 @@ In both ai_summary.py & question_answering.py, make sure the model is:
 
 
 "model": "mistral"
-
+```
 ---
 ```
 🚀 Start the Flask App
