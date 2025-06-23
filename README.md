@@ -99,7 +99,7 @@ ai_report_automation_advanced/
 
 ### 1. Clone the repo
 
-```bash
+'''bash
 git clone https://github.com/your-username/smartfile-ai.git
 cd smartfile-ai
 
