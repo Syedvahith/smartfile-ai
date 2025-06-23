@@ -94,13 +94,13 @@ ai_report_automation_advanced/
 - [Ollama](https://ollama.com/download) (for local LLMs)
 - ChromeDriver (version matching your Chrome)
 - Git (for cloning)
-```
+
 ---
 
 ## 🛠️ Installation
 
 ### 1. Clone the repo
-
+```
 ```bash
 git clone https://github.com/your-username/smartfile-ai.git
 cd smartfile-ai
