@@ -107,6 +107,13 @@
     .theme-toggle span:hover {
       text-decoration: underline;
     }
+
+    img.chart {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-top: 15px;
+      border: 1px solid #ccc;
+    }
   </style>
 </head>
 <body>
@@ -132,6 +139,16 @@
     </div>
 
     <div class="section">
+      <div class="label">📊 API Chart:</div>
+      <img id="apiChart" src="/static/bar_chart_api.png" alt="API Chart" class="chart" />
+    </div>
+
+    <div class="section">
+      <div class="label">📊 Web Chart:</div>
+      <img id="webChart" src="/static/bar_chart_web.png" alt="Web Chart" class="chart" />
+    </div>
+
+    <div class="section">
       <div class="label">Ask a Question:</div>
       <select id="fileSelect">
         <option value="api">API File</option>
@@ -154,6 +171,8 @@
         .then(data => {
           document.getElementById("apiSummary").innerText = data.api_summary;
           document.getElementById("webSummary").innerText = data.web_summary;
+          document.getElementById("apiChart").src = "/static/bar_chart_api.png?t=" + new Date().getTime();
+          document.getElementById("webChart").src = "/static/bar_chart_web.png?t=" + new Date().getTime();
         });
     }
 
