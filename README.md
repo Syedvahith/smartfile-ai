@@ -31,12 +31,12 @@ SmartFile AI is a powerful Python automation tool that downloads, processes, and
 
 > Web Summary
 ![alt text](Web_Summary.png)
-```
+
 ### 📊 Visual Enhancements (Phase 1 Update)
 - Added automatic bar chart generation after CSV cleanup
 - Separate charts for API and Web files saved under `static`
 - UI now supports toggling between light/dark themes with AI summaries + insights
-```
+
 
 ### 📊 API Bar Chart
 ![API Chart](report_html/visuals/Bar_API.png)
