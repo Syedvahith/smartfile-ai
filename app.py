@@ -19,7 +19,7 @@ def index():
 
 @app.route("/generate", methods=["POST"])
 def generate():
-    api_file, web_file = process_pipeline()
+    api_file, web_file, api_chart, web_chart = process_pipeline()
 
     summaries["api"] = (
         generate_summary(api_file) if api_file and os.path.exists(api_file)
@@ -30,13 +30,19 @@ def generate():
         else "Web CSV not available."
     )
 
-    return jsonify({"message": "Summaries generated."})
+    # Store chart paths to send to frontend
+    return jsonify({
+        "message": "Summaries and charts generated.",
+        "api_chart": api_chart,
+        "web_chart": web_chart
+    })
+
 
 @app.route("/summaries")
 def get_summaries():
     return jsonify({
         "api_summary": summaries["api"],
-        "web_summary": summaries["web"]
+        "web_summary": summaries["web"],
     })
 
 @app.route("/ask", methods=["POST"])
