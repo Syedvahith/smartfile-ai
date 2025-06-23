@@ -31,11 +31,12 @@ SmartFile AI is a powerful Python automation tool that downloads, processes, and
 
 > Web Summary
 ![alt text](Web_Summary.png)
-
+```
 ### 📊 Visual Enhancements (Phase 1 Update)
 - Added automatic bar chart generation after CSV cleanup
 - Separate charts for API and Web files saved under `static`
 - UI now supports toggling between light/dark themes with AI summaries + insights
+```
 
 ### 📊 API Bar Chart
 ![API Chart](report_html/visuals/Bar_API.png)
@@ -84,7 +85,7 @@ ai_report_automation_advanced/
 ├── config/.env # FTP settings (optional)
 
 ---
-
+```
 ## ⚙️ Requirements
 
 
@@ -93,7 +94,7 @@ ai_report_automation_advanced/
 - [Ollama](https://ollama.com/download) (for local LLMs)
 - ChromeDriver (version matching your Chrome)
 - Git (for cloning)
-
+```
 ---
 
 ## 🛠️ Installation
@@ -107,13 +108,15 @@ cd smartfile-ai
 
 
 ---
-
+```
 2. Create Virtual Environment
 
 python -m venv venv
 venv\Scripts\activate   # On Windows
 # source venv/bin/activate   # On Linux/macOS
+```
 
+```
 3. Install Requirements
 
 pip install -r requirements.txt
@@ -121,6 +124,7 @@ pip install -r requirements.txt
 If no requirements.txt, run:
 
 pip freeze > requirements.txt
+```
 
 ---
 ```
