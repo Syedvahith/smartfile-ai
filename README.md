@@ -37,17 +37,18 @@ SmartFile AI is a powerful Python automation tool that downloads, processes, and
 - Separate charts for API and Web files saved under `static`
 - UI now supports toggling between light/dark themes with AI summaries + insights
 
-> API Chart Bar
-![alt text](report_html\visuals\Bar_API.png)
+### 📊 API Bar Chart
+![API Chart](report_html/visuals/Bar_API.png)
 
-> Web Chart Bar
-![alt text](report_html\visuals\Bar_Web.png)
+### 📊 Web Bar Chart
+![Web Chart](report_html/visuals/Bar_Web.png)
 
-> API Chart PI
-![alt text](report_html\visuals\PI_API.png)
+### 🥧 API Pie Chart
+![API Pie](report_html/visuals/Pie_API.png)
 
-> Web CHart PI
-![alt text](report_html\visuals\PI_Web.png)
+### 🥧 Web Pie Chart
+![Web Pie](report_html/visuals/Pie_Web.png)
+
 
 >Q & A 
 ![alt text](<Q&A about file.png>)
