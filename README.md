@@ -54,6 +54,7 @@ SmartFile AI is a powerful Python automation tool that downloads, processes, and
 ![alt text](<Q&A about file.png>)
 
 ---
+```
 
 ## 📁 Folder Structure
 
@@ -102,6 +103,7 @@ ai_report_automation_advanced/
 ```bash
 git clone https://github.com/your-username/smartfile-ai.git
 cd smartfile-ai
+```
 
 
 ---
@@ -165,15 +167,15 @@ In both ai_summary.py & question_answering.py, make sure the model is:
 "model": "mistral"
 
 ---
-
+```
 🚀 Start the Flask App
 
 python app.py
 App runs at:
 🔗 http://127.0.0.1:5000
-
+```
 ---
-
+```
 # Terminal - Ollama
 ollama run mistral or any other
 ```
