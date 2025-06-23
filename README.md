@@ -44,10 +44,10 @@ SmartFile AI is a powerful Python automation tool that downloads, processes, and
 ![Web Chart](report_html/visuals/Bar_Web.png)
 
 ### 🥧 API Pie Chart
-![API Pie](report_html/visuals/Pie_API.png)
+![API Pie](report_html/visuals/PI_API.png)
 
 ### 🥧 Web Pie Chart
-![Web Pie](report_html/visuals/Pie_Web.png)
+![Web Pie](report_html/visuals/PI_Web.png)
 
 
 >Q & A 
