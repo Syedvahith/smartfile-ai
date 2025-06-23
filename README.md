@@ -143,7 +143,7 @@ Download from: https://ollama.com/download
 (Available for Windows, macOS, Linux)
 ```
 ---
-
+```
 2. Pull a Model
 
 ollama pull mistral
@@ -154,10 +154,11 @@ llama3
 tinyllama
 
 phi3
-
+```
 ---
 
-```3. Start the Model
+```
+3. Start the Model
 
 ollama run mistral
 🧠 Update Model in Code
