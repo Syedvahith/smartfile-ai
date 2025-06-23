@@ -59,7 +59,7 @@ SmartFile AI is a powerful Python automation tool that downloads, processes, and
 
 ## 📁 Folder Structure
 
-```bash
+```
 ai_report_automation_advanced/
 ├── app.py # Flask app entry point
 ├── main.py # Master pipeline logic
