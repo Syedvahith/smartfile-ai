@@ -19,9 +19,9 @@ def download_zip_from_portal(download_dir="input_data/web"):
     driver.maximize_window()
 
     try:
-        driver.get("https://cknxt.cavinkare.in/rsclaimmanagement_new/")
-        WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, "Userid"))).send_keys("RPA")
-        WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, "password"))).send_keys("rpa@4321")
+        driver.get("Your url")
+        WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, "Userid"))).send_keys("Your user")
+        WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, "password"))).send_keys("your pass")
         WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, "btn"))).click()
 
         time.sleep(5)
