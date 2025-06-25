@@ -107,6 +107,34 @@
     .theme-toggle span:hover {
       text-decoration: underline;
     }
+    .chat-msg {
+      margin-bottom: 10px;
+    }
+    .user-msg {
+      background-color: #d1eaff;
+      color: #000;
+      padding: 8px 12px;
+      border-radius: 10px;
+      max-width: 70%;
+      margin-left: auto;
+    }
+    .ai-msg {
+      background-color: #e1f5e1;
+      color: #000;
+      padding: 8px 12px;
+      border-radius: 10px;
+      max-width: 70%;
+      margin-right: auto;
+    }
+    body.dark-mode .user-msg {
+      background-color: #1f3b4d;
+      color: #fff;
+    }
+    body.dark-mode .ai-msg {
+      background-color: #2e4d2e;
+      color: #fff;
+    }
+
 
     img.chart {
       max-width: 100%;
@@ -149,14 +177,20 @@
     </div>
 
     <div class="section">
-      <div class="label">Ask a Question:</div>
-      <select id="fileSelect">
-        <option value="api">API File</option>
-        <option value="web">Web File</option>
-      </select>
-      <input type="text" id="question" placeholder="Ask something about the file..." />
-      <button onclick="askQuestion()">Ask Me</button>
-      <div id="answer" class="output">(No question asked yet)</div>
+        <div class="label">Ask a Question:</div>
+        <select id="fileSelect">
+          <option value="api">API File</option>
+          <option value="web">Web File</option>
+        </select>
+        <input type="text" id="question" placeholder="Ask something about the file..." />
+        <button onclick="askQuestion()">Ask Me</button>
+      </div>
+
+      <div class="section">
+        <div class="label">Chat with AI:</div>
+        <div id="chatBox" class="output" style="height: 300px; overflow-y: auto;"></div>
+      </div>
+
       <div class="section">
       <button onclick="compareFiles()">Compare API & Web CSV</button>
       <div id="comparisonResult" class="output">(No comparison yet)</div>
@@ -180,10 +214,19 @@
         });
     }
 
-    function askQuestion() {
+      function askQuestion() {
       const question = document.getElementById("question").value.trim();
       const file = document.getElementById("fileSelect").value;
+      const chatBox = document.getElementById("chatBox");
+
       if (!question) return alert("Please enter a question.");
+
+      // Add user question to chat
+      const userMsg = document.createElement("div");
+      userMsg.className = "chat-msg user-msg";
+      userMsg.innerText = question;
+      chatBox.appendChild(userMsg);
+      chatBox.scrollTop = chatBox.scrollHeight;
 
       fetch("/ask", {
         method: "POST",
@@ -192,7 +235,12 @@
       })
         .then(res => res.json())
         .then(data => {
-          document.getElementById("answer").innerText = data.answer;
+          const aiMsg = document.createElement("div");
+          aiMsg.className = "chat-msg ai-msg";
+          aiMsg.innerText = data.answer;
+          chatBox.appendChild(aiMsg);
+          chatBox.scrollTop = chatBox.scrollHeight;
+          document.getElementById("question").value = "";
         });
     }
 
@@ -203,27 +251,27 @@
         ? "☀️ Light Mode"
         : "🌙 Dark Mode";
     }
-      function compareFiles() {
-      document.getElementById("comparisonResult").innerText = "Comparing...";
-      fetch("/compare")
-        .then(res => res.json())
-        .then(data => {
-          if (data.error) {
-            document.getElementById("comparisonResult").innerText = data.error;
-          } else {
-            const output = `
-  ✅ Shape Difference: ${data.shape_diff}
-  🔁 Common Columns: ${data.common_columns.join(", ")}
-  📁 Only in API: ${data.unique_to_api.join(", ")}
-  📁 Only in Web: ${data.unique_to_web.join(", ")}
-  📊 Rows in Both: ${data.rows_in_both}
-  📉 Rows only in API: ${data.rows_only_in_api}
-  📈 Rows only in Web: ${data.rows_only_in_web}
-            `;
-            document.getElementById("comparisonResult").innerText = output;
-          }
-        });
-    }
+        function compareFiles() {
+        document.getElementById("comparisonResult").innerText = "Comparing...";
+        fetch("/compare")
+          .then(res => res.json())
+          .then(data => {
+            if (data.error) {
+              document.getElementById("comparisonResult").innerText = data.error;
+            } else {
+              const output = `
+    ✅ Shape Difference: ${data.shape_diff}
+    🔁 Common Columns: ${data.common_columns.join(", ")}
+    📁 Only in API: ${data.unique_to_api.join(", ")}
+    📁 Only in Web: ${data.unique_to_web.join(", ")}
+    📊 Rows in Both: ${data.rows_in_both}
+    📉 Rows only in API: ${data.rows_only_in_api}
+    📈 Rows only in Web: ${data.rows_only_in_web}
+              `;
+              document.getElementById("comparisonResult").innerText = output;
+            }
+          });
+      }
 
     window.onload = () => {
       const savedTheme = localStorage.getItem("theme");

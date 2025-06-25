@@ -62,7 +62,7 @@ def ask():
         return jsonify({"answer": "Selected file not found."})
 
     answer = answer_question(file_path, question)
-    return jsonify({"answer": answer})
+    return jsonify({"answer": answer, "question": question})
 
 @app.route("/compare", methods=["GET"])
 def compare():
