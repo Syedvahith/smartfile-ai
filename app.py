@@ -5,6 +5,8 @@ from main import process_pipeline
 import os
 import glob
 from file_comparator import compare_csvs
+from werkzeug.utils import secure_filename
+
 
 
 app = Flask(__name__)
@@ -46,6 +48,50 @@ def get_summaries():
         "api_summary": summaries["api"],
         "web_summary": summaries["web"],
     })
+
+@app.route("/upload", methods=["POST"])
+def upload_file():
+    if 'file' not in request.files:
+        return jsonify({"error": "No file uploaded"}), 400
+
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({"error": "Empty file name"}), 400
+
+    filename = secure_filename(file.filename)
+    manual_folder = "input_data/manual"
+    os.makedirs(manual_folder, exist_ok=True)
+    file_path = os.path.join(manual_folder, filename)
+    file.save(file_path)
+
+    # Clean the file
+    cleaned_path = "output_reports/manual/cleaned_manual.csv"
+    os.makedirs("output_reports/manual", exist_ok=True)
+    from data_cleaner import clean_damage_claim_csv
+    clean_damage_claim_csv(file_path, cleaned_path)
+
+    # Summary + Chart
+    from ai_summary import generate_summary
+    from visualizer import generate_visuals
+    summary = generate_summary(cleaned_path)
+    chart_path = generate_visuals(cleaned_path, "bar_chart_manual")
+
+    chart_url = None
+    if chart_path and os.path.exists(chart_path):
+        static_path = os.path.join("static", "bar_chart_manual.png")
+        os.makedirs("static", exist_ok=True)
+        import shutil
+        shutil.copy(chart_path, static_path)
+        chart_url = "/static/bar_chart_manual.png"
+    else:
+        chart_url = None
+
+    return jsonify({
+        "message": "Manual file processed successfully.",
+        "summary": summary,
+        "chart": chart_url
+    })
+
 
 @app.route("/ask", methods=["POST"])
 def ask():

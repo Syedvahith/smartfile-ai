@@ -175,6 +175,13 @@
       <div class="label">📊 Web Chart:</div>
       <img id="webChart" src="/static/bar_chart_web.png" alt="Web Chart" class="chart" />
     </div>
+    <div class="section">
+      <div class="label">📤 Upload Your CSV (Manual Mode)</div>
+      <input type="file" id="manualFile" accept=".csv" />
+      <button onclick="uploadManual()">Upload & Analyze</button>
+      <div class="output" id="manualSummary">(Upload a CSV to begin)</div>
+      <!-- <img id="manualChart" src="" style="max-width:100%; display:none;" /> -->
+    </div>
 
     <div class="section">
         <div class="label">Ask a Question:</div>
@@ -243,6 +250,27 @@
           document.getElementById("question").value = "";
         });
     }
+        function uploadManual() {
+      const fileInput = document.getElementById("manualFile");
+      if (!fileInput.files[0]) return alert("Please choose a file");
+
+      const formData = new FormData();
+      formData.append("file", fileInput.files[0]);
+
+      document.getElementById("manualSummary").innerText = "Processing...";
+
+      fetch("/upload", {
+        method: "POST",
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("manualSummary").innerText = data.summary;
+        document.getElementById("manualChart").src = data.chart;
+        document.getElementById("manualChart").style.display = "block";
+      });
+    }
+
 
     function toggleTheme() {
       const isDark = document.body.classList.toggle("dark-mode");

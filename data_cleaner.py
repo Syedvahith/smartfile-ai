@@ -4,7 +4,12 @@ import csv
 
 def clean_damage_claim_csv(input_csv_path, output_csv_path):
     try:
-        df = pd.read_csv(input_csv_path, header=None, engine='python', on_bad_lines='skip', delimiter=',', quoting=csv.QUOTE_MINIMAL)
+        # df = pd.read_csv(input_csv_path, header=None, engine='python', on_bad_lines='skip', delimiter=',', quoting=csv.QUOTE_MINIMAL)
+        try:
+            df = pd.read_csv(input_csv_path, encoding="utf-8", header=None, engine='python', on_bad_lines='skip', delimiter=',', quoting=csv.QUOTE_MINIMAL)
+        except UnicodeDecodeError:
+            df = pd.read_csv(input_csv_path, encoding="ISO-8859-1")  # fallback for non-UTF8 files
+
 
         print(f"[Cleaner] Original shape: {df.shape}")
 

@@ -81,7 +81,12 @@ def process_pipeline():
     api_chart = generate_visuals(api_clean_path, "bar_chart_api") if os.path.exists(api_clean_path) else None
     web_chart = generate_visuals(web_clean_path, "bar_chart_web") if os.path.exists(web_clean_path) else None
 
-    return api_clean_path, web_clean_path, api_chart, web_chart
+    return (
+    api_clean_path,
+    web_clean_path,
+    api_chart if 'api_chart' in locals() else None,
+    web_chart if 'web_chart' in locals() else None
+)
 
 # import os
 # import glob
