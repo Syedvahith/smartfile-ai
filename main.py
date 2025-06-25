@@ -40,6 +40,8 @@ def process_pipeline():
     clear_folder("input_data/web")
     clear_folder("output_reports/api")
     clear_folder("output_reports/web")
+    clear_folder("static")
+
 
     # Step 2: Download API and Web CSV
     download_csv_from_api("input_data/api")

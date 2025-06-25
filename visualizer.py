@@ -1,6 +1,10 @@
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib
+
+matplotlib.use('Agg')
+
 
 def generate_visuals(csv_path, output_name):
     try:

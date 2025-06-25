@@ -157,6 +157,10 @@
       <input type="text" id="question" placeholder="Ask something about the file..." />
       <button onclick="askQuestion()">Ask Me</button>
       <div id="answer" class="output">(No question asked yet)</div>
+      <div class="section">
+      <button onclick="compareFiles()">Compare API & Web CSV</button>
+      <div id="comparisonResult" class="output">(No comparison yet)</div>
+    </div>
     </div>
   </div>
 
@@ -198,6 +202,27 @@
       document.getElementById("themeText").innerText = isDark
         ? "☀️ Light Mode"
         : "🌙 Dark Mode";
+    }
+      function compareFiles() {
+      document.getElementById("comparisonResult").innerText = "Comparing...";
+      fetch("/compare")
+        .then(res => res.json())
+        .then(data => {
+          if (data.error) {
+            document.getElementById("comparisonResult").innerText = data.error;
+          } else {
+            const output = `
+  ✅ Shape Difference: ${data.shape_diff}
+  🔁 Common Columns: ${data.common_columns.join(", ")}
+  📁 Only in API: ${data.unique_to_api.join(", ")}
+  📁 Only in Web: ${data.unique_to_web.join(", ")}
+  📊 Rows in Both: ${data.rows_in_both}
+  📉 Rows only in API: ${data.rows_only_in_api}
+  📈 Rows only in Web: ${data.rows_only_in_web}
+            `;
+            document.getElementById("comparisonResult").innerText = output;
+          }
+        });
     }
 
     window.onload = () => {

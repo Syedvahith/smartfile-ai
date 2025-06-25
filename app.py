@@ -4,6 +4,8 @@ from question_answering import answer_question
 from main import process_pipeline
 import os
 import glob
+from file_comparator import compare_csvs
+
 
 app = Flask(__name__)
 
@@ -63,6 +65,18 @@ def ask():
 
     answer = answer_question(file_path, question)
     return jsonify({"answer": answer})
+
+@app.route("/compare", methods=["GET"])
+def compare():
+    api_csv = "output_reports/api/clear_api.csv"
+    web_csv = "output_reports/web/clear_web.csv"
+
+    if not os.path.exists(api_csv) or not os.path.exists(web_csv):
+        return jsonify({"error": "Both files must be available for comparison."}), 400
+
+    comparison_result = compare_csvs(api_csv, web_csv)
+    return jsonify(comparison_result)
+
 
 if __name__ == "__main__":
     app.run(debug=True, use_reloader=True)
