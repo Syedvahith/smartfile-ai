@@ -49,12 +49,10 @@ def get_summaries():
 
 @app.route("/ask", methods=["POST"])
 def ask():
-
     data = request.get_json()
     question = data.get("question", "")
     file_type = data.get("file", "api")
 
-    # ✅ Use correct cleaned file paths
     file_path = (
         "output_reports/api/clear_api.csv" if file_type == "api"
         else "output_reports/web/clear_web.csv"
