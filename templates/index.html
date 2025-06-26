@@ -202,6 +202,9 @@
       <button onclick="compareFiles()">Compare API & Web CSV</button>
       <div id="comparisonResult" class="output">(No comparison yet)</div>
     </div>
+    <div class="section">
+      <button onclick="downloadReport()">📄 Download Report</button>
+    </div>
     </div>
   </div>
 
@@ -270,6 +273,18 @@
         document.getElementById("manualChart").style.display = "block";
       });
     }
+    function downloadReport() {
+      fetch("/generate_report")
+        .then(res => res.json())
+        .then(data => {
+          if (data.path) {
+            window.open(data.path, '_blank');
+          } else {
+            alert("Failed to generate report.");
+          }
+        });
+    }
+
 
 
     function toggleTheme() {
