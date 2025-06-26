@@ -1,23 +1,45 @@
-from jinja2 import Environment, FileSystemLoader
+from fpdf import FPDF
 import os
 
-def generate_html_report(summary_text, output_path="report_html/final_report.html"):
-    try:
-        env = Environment(loader=FileSystemLoader('templates'))
-        template = env.get_template('report_template.html')
+class PDF(FPDF):
+    def header(self):
+        self.set_font("Arial", "B", 16)
+        self.cell(0, 10, "SmartFile AI - Summary Report", 0, 1, "C")
+        self.ln(10)
 
-        rendered_html = template.render(
-            report_title="SmartFile AI - Python File Summary & Query",
-            report_summary=summary_text
-        )
+    def section_title(self, title):
+        self.set_font("Arial", "B", 14)
+        self.set_text_color(30, 30, 30)
+        self.cell(0, 10, title, 0, 1)
+        self.ln(2)
 
-        os.makedirs(os.path.dirname(output_path), exist_ok=True)
-        with open(output_path, "w", encoding="utf-8") as f:
-            f.write(rendered_html)
+    def section_body(self, text):
+        self.set_font("Arial", "", 12)
+        self.set_text_color(50, 50, 50)
+        self.multi_cell(0, 8, text)
+        self.ln()
 
-        print(f"✅ HTML report generated at: {output_path}")
-        return output_path
+    def insert_image(self, image_path, label):
+        if os.path.exists(image_path):
+            self.section_title(label)
+            self.image(image_path, x=25, w=160)
+            self.ln(10)
 
-    except Exception as e:
-        print(f"❌ Failed to generate HTML report: {e}")
-        return None
+def generate_pdf(api_summary, web_summary, api_chart_path, web_chart_path, output_path="reports/smartfile_report.pdf"):
+    pdf = PDF()
+    pdf.add_page()
+
+    # ✅ Add Summaries
+    pdf.section_title("API File Summary")
+    pdf.section_body(api_summary)
+
+    pdf.section_title("Web File Summary")
+    pdf.section_body(web_summary)
+
+    # ✅ Add Charts
+    pdf.insert_image(api_chart_path, "API Chart")
+    pdf.insert_image(web_chart_path, "Web Chart")
+
+    pdf.output(output_path)
+    print(f"✅ PDF report generated: {output_path}")
+    return output_path

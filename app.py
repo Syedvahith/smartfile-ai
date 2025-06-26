@@ -6,6 +6,8 @@ import os
 import glob
 from file_comparator import compare_csvs
 from werkzeug.utils import secure_filename
+from flask import send_from_directory
+from report_generator import generate_pdf
 
 
 
@@ -48,6 +50,28 @@ def get_summaries():
         "api_summary": summaries["api"],
         "web_summary": summaries["web"],
     })
+
+
+@app.route("/generate_report", methods=["GET"])
+def generate_report():
+    api_chart = "static/bar_chart_api.png"
+    web_chart = "static/bar_chart_web.png"
+    output_path = "reports/smartfile_report.pdf"
+
+    # Use cached summaries
+    api_summary = summaries.get("api", "No summary.")
+    web_summary = summaries.get("web", "No summary.")
+
+    pdf_path = generate_pdf(api_summary, web_summary, api_chart, web_chart, output_path)
+
+    if os.path.exists(pdf_path):
+        return jsonify({"message": "PDF Report generated.", "path": "/" + pdf_path})
+    return jsonify({"message": "Failed to generate report."}), 500
+
+@app.route("/reports/<filename>")
+def serve_report(filename):
+    return send_from_directory("reports", filename)
+
 
 @app.route("/upload", methods=["POST"])
 def upload_file():
